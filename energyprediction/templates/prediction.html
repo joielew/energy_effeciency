@@ -1,0 +1,193 @@
+<html>
+  <head>
+    <title>Energy Consumption Prediction</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 70px;
+        font-style: oblique;
+      }
+
+      .container {
+        text-align: center;
+        display: flex;
+        vertical-align: middle;
+        align-items: center;
+        color: darkslategray;
+        height: 650px;
+        width: 100%;
+        margin-bottom: 20px;
+        background-image: url("https://www.nova-direct.com/wp-content/uploads/2019/01/home-appliance-nova-direct-old.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      h2 {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        flex-basis: 45%;
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .prediction-result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Appliance Energy Consumption Prediction</h1>
+    </div>
+    <h2>Please fill in the details to make predicion:</h2>
+    <form method="POST" action="">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="T1">Temperature in Kitchen</label>
+        <input type="number" name="T1" required />
+      </div>
+      <div class="form-group">
+        <label for="T2">Temperature in Living Room</label>
+        <input type="number" name="T2" required />
+      </div>
+      <div class="form-group">
+        <label for="T3">Temperature in Laundry</label>
+        <input type="number" name="T3" required />
+      </div>
+      <div class="form-group">
+        <label for="T4">Temperature in Office</label>
+        <input type="number" name="T4" required />
+      </div>
+      <div class="form-group">
+        <label for="T5">Temperature in Bathroom</label>
+        <input type="number" name="T5" required />
+      </div>
+      <div class="form-group">
+        <label for="T7">Temperature in Ironing Room</label>
+        <input type="number" name="T7" required />
+      </div>
+      <div class="form-group">
+        <label for="T8">Temperature in Teenager Room</label>
+        <input type="number" name="T8" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_1">Humidity in Kitchen</label>
+        <input type="number" name="RH_1" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_2">Humidity in Living Room</label>
+        <input type="number" name="RH_2" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_3">Humidity in Laundry</label>
+        <input type="number" name="RH_3" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_4">Humidity in Office</label>
+        <input type="number" name="RH_4" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_5">Humidity in Bathroom</label>
+        <input type="number" name="RH_5" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_6">Humidity Outside Building (north)</label>
+        <input type="number" name="RH_6" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_7">Humidity in Ironing Room</label>
+        <input type="number" name="RH_7" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_8">Humidity in Teenager Room</label>
+        <input type="number" name="RH_8" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_9">Humidity in Parents Room</label>
+        <input type="number" name="RH_9" required />
+      </div>
+      <div class="form-group">
+        <label for="T_out">Temperature Outside</label>
+        <input type="number" name="T_out" required />
+      </div>
+      <div class="form-group">
+        <label for="Tdewpoint">Dew Point</label>
+        <input type="number" name="Tdewpoint" required />
+      </div>
+      <div class="form-group">
+        <label for="RH_out">Humidity Outside</label>
+        <input type="number" name="RH_out" required />
+      </div>
+      <div class="form-group">
+        <label for="Press_mm_hg">Pressure Outside</label>
+        <input type="number" name="Press_mm_hg" required />
+      </div>
+      <div class="form-group">
+        <label for="Windspeed">Wind Speed</label>
+        <input type="number" name="Windspeed" required />
+      </div>
+      <button type="submit">Predict</button>
+    </form>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        var inputs = document.querySelectorAll("input[type='number']");
+        for (var i = 0; i < inputs.length; i++) {
+          inputs[i].setAttribute("step", "0.01");
+        }
+      });
+    </script>
+
+    {% if output_message %}
+    <div class="prediction-result">
+      <h3>Prediction Result</h3>
+      <p>{{ output_message }}</p>
+    </div>
+    {% endif %}
+
+    <a href="#">Jump to Top</a>
+  </body>
+</html>
